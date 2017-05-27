@@ -48,7 +48,7 @@
 #define DAY 3600*1000*24
 #define RUNTIME 30*1000
 const int buttonPin = 17;
-const int ledPin = 13; 
+const int ledPin = 13;
 
 //added for fastLED
 //const CRGBArray<1500> ledArray;
@@ -86,13 +86,13 @@ void setup() {
   Serial1.begin(19200);
 
   // initialize random generator
-  randomSeed(millis()); 
+  randomSeed(millis());
 
   LEDS.show();
 
   makeArray();
 
-  // setupGIFs();
+  setupGIFs();
 
   // initializePanel();
   Serial.println("Initialization complete");
@@ -100,7 +100,7 @@ void setup() {
 }
 
 // call this before every sequence
-void reset_for_next_pattern(){
+void reset_for_next_pattern() {
   fill_solid( &(leds[0]), 1500, CRGB::Black );
   LEDS.setBrightness(255);
 
@@ -121,107 +121,72 @@ void loop() {
   //  Panel();
   // SequenceB();
 
-  // reset_for_next_pattern();
-  // millis_to_run = 35*1000; // default is 30 seconds
-  // playGIF();
+  reset_for_next_pattern();
+  playGIF();
 
 
   reset_for_next_pattern();
   CoolGradient();
 
   reset_for_next_pattern();
+  WolfAlienSpaceship();
+
+  reset_for_next_pattern();
+  WolfAtariPong(true);
+
+  reset_for_next_pattern();
+  playGIF();
+
+  reset_for_next_pattern();
+  WolfBoxes();
+
+  reset_for_next_pattern();
+  WolfColorTunnel();
+
+  reset_for_next_pattern();
+  WolfColorWheel(true);  //true=black sector, false=all color
+
+  reset_for_next_pattern();
+  playGIF();
+
+  reset_for_next_pattern();
+  WolfComets(true);    //true=fade-to-black and reset; false=persistent color trails (very different looks!)
+
+  reset_for_next_pattern();
+  WolfEyeball();
+
+  reset_for_next_pattern();
+  WolfFractals();     //UNFINISHED: Use only if you are desperate for more patterns!
+
+  reset_for_next_pattern();
+  WolfFuzzScreen();
+
+  reset_for_next_pattern();
+  playGIF();
+
+  reset_for_next_pattern();
+  WolfMoire(true);
+
+  reset_for_next_pattern();
+  WolfPinwheel_1();
+
+  reset_for_next_pattern();
   WolfPinwheel_2();
 
-  // reset_for_next_pattern();
-  // WolfPinwheel_2();
-  /*
-    millis_elapsed = 0;
-    millis_to_run=10000;
-    cont = true;
-    while (cont == true) {
-      if (millis_elapsed < millis_to_run) {
-      } else {
-        cont = false;
-      }
-    }
+  reset_for_next_pattern();
+  WolfSeaStorm();
 
+  reset_for_next_pattern();
+  WolfStarfield(false);   //true=color stars, false=white only
 
-    millis_elapsed = 0;
-    millis_to_run=30000;
-    cont = true;
-    while (cont == true) {
-    if (millis_elapsed < millis_to_run) {
-     Corner();//CascadeUp
-    } else {
-      cont = false;
-    }}
+  reset_for_next_pattern();
+  playGIF();
 
-    millis_elapsed = 0;
-    cont = true;
-    millis_to_run=30000;
-    while (cont == true) {
-      if (millis_elapsed < millis_to_run) {
-        Rain();
-      } else {
-        cont = false;
-      }
-    }
+  reset_for_next_pattern();
+  WolfSpiralStarfield(true, true); //true=color stars, false=white only (pattern looks best using(true,true))
 
-    millis_elapsed = 0;
-    cont = true;
-    millis_to_run=20000;
-    while (cont == true) {
-      if (millis_elapsed < millis_to_run) {
-        Rainbow();
-      } else {
-        cont = false;
-      }
-    }
-
-    millis_elapsed = 0;
-    cont = true;
-    millis_to_run=20000;
-    while (cont == true) {
-      if (millis_elapsed < millis_to_run) {
-        SequenceB();
-      } else {
-        cont = false;
-      }
-    }
-
-    millis_elapsed = 0;
-    cont = true;
-    millis_to_run=20000;
-    while (cont == true) {
-      if (millis_elapsed < millis_to_run) {
-    CosmicRainbow();
-     } else {
-        cont = false;
-      }
-    }
-
-    millis_elapsed = 0;
-    cont = true;
-    millis_to_run=20000;
-    while (cont == true) {
-      if (millis_elapsed < millis_to_run) {
-        RedShift();
-      } else {
-        cont = false;
-      }
-    }
-
-    millis_elapsed = 0;
-    cont = true;
-    millis_to_run=20000;
-    while (cont == true) {
-      if (millis_elapsed < millis_to_run) {
-        Edges();
-      } else {
-        cont = false;
-      }
-    }
-  */
+  reset_for_next_pattern();
+  Sounder();
 }//end of loop
 
 
@@ -254,7 +219,7 @@ void makeArray() {
   }
 }
 
-CRGB hsv2rgb(CHSV hsv){
+CRGB hsv2rgb(CHSV hsv) {
   CRGB rgb;
   hsv2rgb_rainbow(hsv, rgb);
   return rgb;
@@ -262,20 +227,21 @@ CRGB hsv2rgb(CHSV hsv){
 
 bool Show() {
   // time's up
-  if (millis_elapsed > millis_to_run){
+  if (millis_elapsed > millis_to_run) {
     cont = false;
-    return cont; 
+    return cont;
   }
 
   // test if button press, short or long
   if (digitalRead(buttonPin) == LOW) {
     buttonPressedTime = millis();
     delay(20); // debounce
-    while (digitalRead(buttonPin) == LOW)
-        delay(10); 
-    if(millis() - buttonPressedTime >= LONG_PRESS) {
-        millis_to_run = HOUR;
-      } else {
+    while (digitalRead(buttonPin) == LOW) {
+      delay(10);
+    }
+    if (millis() - buttonPressedTime >= LONG_PRESS) {
+      millis_to_run = HOUR;
+    } else {
       millis_to_run = RUNTIME;
       cont = false;
       return cont;
@@ -285,21 +251,20 @@ bool Show() {
 
   /* This block deals with the reading and adding of IR board infromation*/
   // test
-  if(Serial.read() == 'a'){
+  if (Serial.read() == 'a') {
     IR_leds[Sail[1][1]] = CHSV(100, 255, 255);
     Serial.println("setting leds[Sail[1][1]] = CHSV(100, 255, 255);");
   }
 
+  // store original LED colors
+  memcpy(leds_backup, leds, NUM_STRIPS * NUM_LEDS_PER_STRIP * sizeof(CRGB)  );
+    
   // Read from IR Panel
   receive();
-  for (int i = 0; i < NUM_STRIPS*NUM_LEDS_PER_STRIP; ++i)
-  { 
-    IR_leds[i].v = max(IR_leds[i].v - (int) frame_millis_elapsed, 0);
-
-    // store original LED colors
-    memcpy( leds_backup, leds, NUM_STRIPS * NUM_LEDS_PER_STRIP * sizeof(CRGB)  );
+  //for (int i = 0; i < NUM_STRIPS * NUM_LEDS_PER_STRIP; ++i) {
+    //IR_leds[i].v = max(IR_leds[i].v - (int) frame_millis_elapsed, 0);
     // add layer to LEDs
-    leds[i] += hsv2rgb(IR_leds[i]);
+    //leds[i] += hsv2rgb(IR_leds[i]);
     // print out debug information
     // if (IR_leds[i].v > 0)
     // {
@@ -308,7 +273,16 @@ bool Show() {
     //   Serial.print("frame_millis_elapsed = ");
     //   Serial.println(frame_millis_elapsed);
     // }
-  }
+  //}
+
+  // animations draw on top, from control panel
+  static elapsedMillis milliseconds_since_last_draw;
+  uint32_t msec = milliseconds_since_last_draw;
+  milliseconds_since_last_draw = 0;
+  float ms = (float)msec * 0.001;
+  draw_sparks(ms);
+  draw_deadarea(ms);
+  
   LEDS.show();
   //restore original colors
   memcpy( leds, leds_backup, NUM_STRIPS * NUM_LEDS_PER_STRIP * sizeof(CRGB) );
@@ -318,4 +292,155 @@ bool Show() {
   cont = true;
   return cont;
 }
+
+
+
+#define MAX_SPARKS 500
+
+float spark_x[MAX_SPARKS];  // current position
+float spark_y[MAX_SPARKS];
+float spark_xspeed[MAX_SPARKS]; // current speed, in pixels/second
+float spark_yspeed[MAX_SPARKS];
+float spark_energy[MAX_SPARKS]; // current energy/brightness, 1.0=max, 0=dead
+CRGB spark_color[MAX_SPARKS];
+
+void draw_sparks(float ms)
+{
+  for (int i=0; i < MAX_SPARKS; i++) {
+    if (spark_energy[i] <= 0) {
+      // unused sparks have zero energy
+      continue;
+    }
+    // decrease energy
+    spark_energy[i] -= ms;
+    if (spark_energy[i] <= 0) {
+      // this spark has died out
+      spark_energy[i] = 0;
+      continue;
+    }
+    // move to new position
+    spark_x[i] += spark_xspeed[i] * ms;
+    if (spark_x[i] < 0.5 || spark_x[i] > 20.5) {
+      spark_energy[i] = 0;
+      continue;
+    }
+    spark_y[i] += spark_yspeed[i] * ms;
+    if (spark_y[i] < 0.5 || spark_y[i] > 72.0) {
+      spark_energy[i] = 0;
+      continue;
+    }
+    // randomly create more sparks
+    if (spark_energy[i] * ms * 1800.0 > random(2, 100)) {
+      add_spark(spark_x[i], spark_y[i], spark_energy[i] * 0.9, spark_color[i]);
+    }
+    // actually draw the spark onto the pixels
+    int x = (int)(spark_x[i] + 0.5);
+    int y = (int)(spark_y[i] + 0.5);
+    if (x >= 1 && x <= 20 && y >= 1 && y <= 72) {
+      //float alpha = spark_energy[i];
+      float alpha = sqrtf(spark_energy[i]);
+      int index = Sail[x][y];
+      unsigned int r = leds[index].r * (1.0 - alpha) + spark_color[i].r * alpha;
+      unsigned int g = leds[index].g * (1.0 - alpha) + spark_color[i].g * alpha;
+      unsigned int b = leds[index].b * (1.0 - alpha) + spark_color[i].b * alpha;
+      if (r > 255) r = 255;
+      if (g > 255) g = 255;
+      if (b > 255) b = 255;
+      leds[index] = CRGB(r, g, b);
+    }
+  }
+}
+
+float random_signed_float(float range)
+{
+  return range * (((float)random(2000000) / 1000000.0) - 1.0);
+}
+
+void add_spark(float x, float y, float energy, CRGB color)
+{
+  if (x < 1.0 || x > 20.0 || y < 1.0 || y > 72.0) return;
+  if (energy < 0.01) return;
+  if (energy > 1.0) energy = 1.0;
+  int i;
+  for (i=0; i < MAX_SPARKS; i++) {
+    if (spark_energy[i] <= 0) break;
+  }
+  if (i >= MAX_SPARKS) {
+    // can't add another spark - maximum number already animating
+    return;
+  }
+  spark_x[i] = x;
+  spark_y[i] = y;
+  spark_xspeed[i] = random_signed_float(4.2);
+  spark_yspeed[i] = random_signed_float(20.0);
+  spark_energy[i] = energy;
+  spark_color[i] = color;
+}
+
+void add_spark(float x, float y, float energy)
+{
+  CHSV random_color;
+  random_color.h = random(256);
+  random_color.s = random(200, 256);
+  random_color.v = random(200, 256);
+  add_spark(x, y, energy, hsv2rgb(random_color));
+}
+
+
+#define MAX_DEADAREA 50
+
+int deadarea_x[MAX_DEADAREA];
+int deadarea_y[MAX_DEADAREA];
+float deadarea_fade[MAX_DEADAREA]; // time to fade area, in seconds
+
+void draw_deadarea(float ms)
+{
+  ms *= 0.2;
+  for (int i=0; i < MAX_DEADAREA; i++) {
+    if (deadarea_fade[i] <= 0) continue;
+    deadarea_fade[i] -= ms;
+    if (deadarea_fade[i] <= 0.001) continue;
+    int x = deadarea_x[i];
+    int y = deadarea_y[i];
+    float n = deadarea_fade[i];
+    //Serial.printf("draw deadarea, x=%d, y=%d, n=%.2f\n", x, y, n);
+    fade_led(x, y, n);
+    fade_led(x, y - 1, n * 0.8);
+    fade_led(x, y + 1, n * 0.8);
+    fade_led(x, y - 2, n * 0.5);
+    fade_led(x, y + 2, n * 0.5);
+    fade_led(x, y - 3, n * 0.3);
+    fade_led(x, y + 3, n * 0.3);
+  }
+}
+
+void fade_led(int x, int y, float amount)
+{
+  if (amount <= 0) return;
+  if (amount > 1.0) amount = 1.0;  
+  if (x >= 1 && x <= 20 && y >= 1 && y <= 75) {
+    int index = Sail[x][y];
+    unsigned int r = leds[index].r * (1.0 - amount);
+    unsigned int g = leds[index].g * (1.0 - amount);
+    unsigned int b = leds[index].b * (1.0 - amount);
+    leds[index] = CRGB(r, g, b);
+  }
+}
+
+void add_deadarea(int x, int y, float amount)
+{
+  if (x < 1.0 || x > 20.0 || y < 1.0 || y > 75.0) return;
+  if (amount < 0.001) return;
+  if (amount > 1.0) amount = 1.0;
+  //Serial.printf("add  deadarea, x=%d, y=%d, n=%.2f\n", x, y, amount);
+  int i;
+  for (i=0; i < MAX_DEADAREA; i++) {
+    if (deadarea_fade[i] <= 0.001) break;
+  }
+  if (i >= MAX_DEADAREA) return;
+  deadarea_x[i] = x;
+  deadarea_y[i] = y;
+  deadarea_fade[i] = amount;
+}
+
 

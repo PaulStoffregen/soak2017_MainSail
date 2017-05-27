@@ -113,12 +113,14 @@ void parse(uint8_t *buf)
         position(object, &xpos, &ypos, &dist, &size, &mass);
         if (size > 2 || mass > 10) {
           // found a meaningful object
-          Serial.printf("%d: ", runcount);
-          Serial.printf("xy=%d,%d  dist=%d  size=%d  mass=%d\n", xpos, ypos, dist, size, mass);
-
-          // Do something with this meaningful object.
-          IRPlay(xpos,ypos,dist,size,mass);
-
+          if (mass >= 3 && size >= 1) {
+            //Serial.printf("%d: ", runcount);
+            //Serial.printf("xy=%d,%d  dist=%d  size=%d  mass=%d\n", xpos, ypos, dist, size, mass);
+            
+            // Do something with this meaningful object.
+            IRPlay(xpos,ypos,dist,size,mass);
+          }
+ 
         }
         //Serial.print("obj: ");
         //pbuf(object);
@@ -132,14 +134,9 @@ void parse(uint8_t *buf)
     }
   }
 
-
-
-
   runcount++;
 
   //pbuf(buf);
-
-
   //Serial.printf("data %d %d\n", buf[42], buf[43]);
 }
 
