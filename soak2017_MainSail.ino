@@ -16,8 +16,8 @@
    pin 1 - Output indicating CPU usage, monitor with an oscilloscope,
            logic analyzer or even an LED (brighter = CPU busier)
 
-   ....   ....   ....   ....   ....   ....   ....   ....   ....   ....
-  y72|    | |    | |    | |    | |    | |    | |    | |    | |    | |    |
+     ....   ....   ....   ....   ....   ....   ....   ....   ....   ....
+ y72|    | |    | |    | |    | |    | |    | |    | |    | |    | |    |
   . |    | |    | |    | |    | |    | |    | |    | |    | |    | |    |
   . |    | |    | |    | |    | |    | |    | |    | |    | |    | |    |
   . |    | |    | |    | |    | |    | |    | |    | |    | |    | |    |
